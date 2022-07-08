@@ -3,6 +3,8 @@ const router = Router();
 
 const products = require("../controllers/product")
 
-router.get("/", products.allProducts)
+router.get("/", products.getAllProducts)
+
+router.get("/:name", products.getProductsbyName)
 
 module.exports = router;
