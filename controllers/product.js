@@ -45,4 +45,29 @@ controllers.getProductsbyName = async (req, res) => {
 
 };
 
+controllers.getProductsbyCategory = async (req, res) => {
+
+    try {
+        
+        const { id } = req.params;
+
+        const config = {
+            query: "SELECT * FROM product WHERE category=?",
+            values: [ id ]
+        };
+
+        const results = await promisePool.query( config.query, config.values );
+        const products = results[0];
+
+        res.status( 200 ).send( products );
+
+    } catch ( error ) {
+        
+        console.log( error );
+        res.status( 500 ).send( error );
+
+    }
+
+};
+
 module.exports = controllers;
