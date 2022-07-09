@@ -1,14 +1,23 @@
 const pool = require( "../database" );
 const promisePool = pool.promise();
 
+const productHelpers = require("../helpers/product");
+
 const controllers = {};
+
 
 controllers.getAllProducts = async ( req, res ) => {
 
     try {
+
+        let query = "SELECT * FROM product";
+
+        query += productHelpers.sqlOrderBy(req.query.sort);
         
-        const results = await promisePool.query( "SELECT * FROM product" );
+        const results = await promisePool.query( query );
+        
         const products = results[0];
+
         res.status( 200 ).send( products );
 
     } catch (error) {
@@ -26,12 +35,17 @@ controllers.getProductsbyName = async (req, res) => {
         
         const { name } = req.params;
 
+        console.log("getProductsbyName", req.query);
+
         const config = {
             query: "SELECT * FROM product WHERE name LIKE ?",
             values: [ `%${name}%` ]
         };
 
+        config.query += productHelpers.sqlOrderBy(req.query.sort);
+
         const results = await promisePool.query( config.query, config.values );
+
         const products = results[0];
 
         res.status( 200 ).send( products );
@@ -56,7 +70,10 @@ controllers.getProductsbyCategory = async (req, res) => {
             values: [ id ]
         };
 
+        config.query += productHelpers.sqlOrderBy(req.query.sort);
+
         const results = await promisePool.query( config.query, config.values );
+
         const products = results[0];
 
         res.status( 200 ).send( products );

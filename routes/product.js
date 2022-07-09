@@ -1,12 +1,12 @@
 const { Router } = require("express");
 const router = Router();
 
-const products = require("../controllers/product")
+const productControllers = require("../controllers/product");
 
-router.get("/", products.getAllProducts)
+router.get("/", productControllers.getAllProducts)
 
-router.get("/:name", products.getProductsbyName)
+router.get("/:name", productControllers.getProductsbyName)
 
-router.get("/category/:id", products.getProductsbyCategory)
+router.get("/category/:id", productControllers.getProductsbyCategory)
 
 module.exports = router;
