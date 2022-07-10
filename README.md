@@ -7,8 +7,12 @@ Este repositorio corresponde a la parte backend del proyecto, específicamente a
 La API REST tiene dos endpoint principales
 
 * Ruta para consultar las categorías: `GET /api/v1/category`
+
+    Deploy https://api-tiendabsale.herokuapp.com/api/v1/category 
+
 * Ruta para consultar los productos: `GET /api/v1/product`
 
+    Deploy https://api-tiendabsale.herokuapp.com/api/v1/product
 ## Categoría
 
 En este endpoint es posible listar todas las categorías que tienen los productos. Solo se puede consumir.
