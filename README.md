@@ -29,7 +29,7 @@ Al realizar una petición HTTP, el servicio retornará un JSON con la siguiente 
 
 ### GET lista de categorías
 
-* ```GET /api/v1/stocks.json``` retornará todas las categorías
+* ```GET /api/v1/category``` retornará todas las categorías
 
 **Respuesta**
 ```json
