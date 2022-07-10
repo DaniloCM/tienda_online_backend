@@ -1,7 +1,7 @@
 const pool = require( "../database" );
 const promisePool = pool.promise();
 
-const productHelpers = require("../helpers/product");
+const sqlHelpers = require("../helpers/sql");
 
 const controllers = {};
 
@@ -9,13 +9,17 @@ const controllers = {};
 controllers.getAllProducts = async ( req, res ) => {
 
     try {
+        const { priceRange, sort } = req.query;
 
         let query = "SELECT * FROM product";
 
-        query += productHelpers.sqlOrderBy(req.query.sort);
+        if (priceRange) {
+            query += " WHERE " + sqlHelpers.priceRangeFilter(priceRange);
+        }
+        query += sqlHelpers.orderBy(sort);
         
         const results = await promisePool.query( query );
-        
+
         const products = results[0];
 
         res.status( 200 ).send( products );
@@ -32,17 +36,21 @@ controllers.getAllProducts = async ( req, res ) => {
 controllers.getProductsbyName = async (req, res) => {
 
     try {
-        
         const { name } = req.params;
+
+        const { priceRange, sort } = req.query;
 
         console.log("getProductsbyName", req.query);
 
         const config = {
-            query: "SELECT * FROM product WHERE name LIKE ?",
+            query: "SELECT * FROM product WHERE (name LIKE ?)",
             values: [ `%${name}%` ]
         };
 
-        config.query += productHelpers.sqlOrderBy(req.query.sort);
+        if (priceRange) {
+            config.query += " AND " + sqlHelpers.priceRangeFilter(priceRange);
+        }
+        config.query += sqlHelpers.orderBy(sort);
 
         const results = await promisePool.query( config.query, config.values );
 
@@ -64,13 +72,17 @@ controllers.getProductsbyCategory = async (req, res) => {
     try {
         
         const { id } = req.params;
+        const { priceRange, sort } = req.query;
 
         const config = {
             query: "SELECT * FROM product WHERE category=?",
             values: [ id ]
         };
 
-        config.query += productHelpers.sqlOrderBy(req.query.sort);
+        if (priceRange) {
+            config.query += "AND" + sqlHelpers.priceRangeFilter(priceRange);
+        }
+        config.query += sqlHelpers.orderBy(sort);
 
         const results = await promisePool.query( config.query, config.values );
 
