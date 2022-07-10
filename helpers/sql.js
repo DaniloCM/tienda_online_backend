@@ -1,5 +1,3 @@
-const { query } = require("../database");
-
 let helpers = {};
 
 helpers.orderBy = (sort) => {
@@ -44,6 +42,21 @@ helpers.priceRangeFilter = (priceRange) => {
     // console.log({priceRange});
 
     let query = "(" + priceRange.join(" OR ") + ")";
+    // console.log({query});
+
+    return query;
+
+}
+
+helpers.categoryFilter = (categories) => {
+    categories = categories.split(",").map((e) => Number(e));
+    
+    categories = categories.map( (categoryId, index) => {
+        return `(category = ${categoryId})`;
+    });
+    // console.log({categories});
+
+    let query = "(" + categories.join(" OR ") + ")";
     // console.log({query});
 
     return query;

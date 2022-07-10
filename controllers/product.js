@@ -9,15 +9,18 @@ const controllers = {};
 controllers.getAllProducts = async ( req, res ) => {
 
     try {
-        const { priceRange, sort } = req.query;
+        const { categories, priceRange, sort } = req.query;
 
         let query = "SELECT * FROM product";
 
-        if (priceRange) {
-            query += " WHERE " + sqlHelpers.priceRangeFilter(priceRange);
-        }
+        if(priceRange || categories) query += " WHERE ";
+
+        if (priceRange) query += sqlHelpers.priceRangeFilter(priceRange);
+        if(priceRange && categories) query += " AND ";
+        if (categories) query += sqlHelpers.categoryFilter(categories);
+
         query += sqlHelpers.orderBy(sort);
-        
+
         const results = await promisePool.query( query );
 
         const products = results[0];
@@ -38,7 +41,7 @@ controllers.getProductsbyName = async (req, res) => {
     try {
         const { name } = req.params;
 
-        const { priceRange, sort } = req.query;
+        const { categories, priceRange, sort } = req.query;
 
         console.log("getProductsbyName", req.query);
 
@@ -49,6 +52,10 @@ controllers.getProductsbyName = async (req, res) => {
 
         if (priceRange) {
             config.query += " AND " + sqlHelpers.priceRangeFilter(priceRange);
+        }
+
+        if (categories) {
+            config.query += " AND " + sqlHelpers.categoryFilter(categories);
         }
         config.query += sqlHelpers.orderBy(sort);
 
@@ -72,7 +79,7 @@ controllers.getProductsbyCategory = async (req, res) => {
     try {
         
         const { id } = req.params;
-        const { priceRange, sort } = req.query;
+        const { categories, priceRange, sort } = req.query;
 
         const config = {
             query: "SELECT * FROM product WHERE category=?",
@@ -81,6 +88,9 @@ controllers.getProductsbyCategory = async (req, res) => {
 
         if (priceRange) {
             config.query += "AND" + sqlHelpers.priceRangeFilter(priceRange);
+        }
+        if (categories) {
+            config.query += " AND " + sqlHelpers.categoryFilter(categories);
         }
         config.query += sqlHelpers.orderBy(sort);
 
