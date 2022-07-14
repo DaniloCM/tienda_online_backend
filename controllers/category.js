@@ -3,6 +3,7 @@ const promisePool = pool.promise();
 
 const controllers = {};
 
+// Obtiene toda la información de las categorias en la base de datos y responde un array con objetos con los datos de las categorias.
 controllers.getAllCategories = async ( req, res ) => {
 
     try {

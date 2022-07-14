@@ -1,5 +1,7 @@
 let helpers = {};
 
+// Según una palabra que se obtiene de la query string 'sort' se crea una cláusula ORDER BY de SQL, si no hay query string o no coincide la palabra  con ninguna definida, se devuelve un string vacio
+// helpers.orderBy(sort: string): string
 helpers.orderBy = (sort) => {
 
     let query = "";
@@ -17,6 +19,9 @@ helpers.orderBy = (sort) => {
 
 }
 
+
+// Según un array que indica los rangos de precios seleccionados, se crea una condición para ocuparla en el WHERE de la consulta, indicando los rangos de precios ya con descuentos.
+// helpers.priceRangeFilter(priceRange: array): string
 helpers.priceRangeFilter = (priceRange) => {
     priceRange = priceRange.split(",").map((e) => e === "true");
     
@@ -29,7 +34,6 @@ helpers.priceRangeFilter = (priceRange) => {
 
         return "";
     });
-    // console.log({priceRange});
 
     for (let i = 0; i < priceRange.length; i++) {
         
@@ -39,25 +43,24 @@ helpers.priceRangeFilter = (priceRange) => {
         }
         
     }
-    // console.log({priceRange});
 
     let query = "(" + priceRange.join(" OR ") + ")";
-    // console.log({query});
 
     return query;
 
 }
 
+
+// Según un array que indica las categorias seleccionadas, se crea una condición para ocuparla en el WHERE de la consulta, indicando los id de las categorias.
+// helpers.categoryFilter(categories: array): string
 helpers.categoryFilter = (categories) => {
     categories = categories.split(",").map((e) => Number(e));
     
     categories = categories.map( (categoryId, index) => {
         return `(category = ${categoryId})`;
     });
-    // console.log({categories});
 
     let query = "(" + categories.join(" OR ") + ")";
-    // console.log({query});
 
     return query;
 

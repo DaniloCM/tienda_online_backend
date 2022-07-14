@@ -5,7 +5,7 @@ const sqlHelpers = require("../helpers/sql");
 
 const controllers = {};
 
-
+// Obtiene la informacion de los productos en la base de datos, si hay queries string de los filtros se le agrega las condiciones a la consulta y esta se ordena según se especifique. Se devuelve un array con objetos con la información de los productos.
 controllers.getAllProducts = async ( req, res ) => {
 
     try {
@@ -36,14 +36,14 @@ controllers.getAllProducts = async ( req, res ) => {
 
 };
 
+
+// Obtiene la informacion de los productos que coincidan en parte con la palabra clave en la base de datos, si hay queries string de los filtros se le agrega las condiciones a la consulta y esta se ordena según se especifique. Se devuelve un array con objetos con la información de los productos.
 controllers.getProductsbyName = async (req, res) => {
 
     try {
         const { name } = req.params;
 
         const { categories, priceRange, sort } = req.query;
-
-        console.log("getProductsbyName", req.query);
 
         const config = {
             query: "SELECT * FROM product WHERE (name LIKE ?)",
