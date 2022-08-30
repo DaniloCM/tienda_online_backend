@@ -1,6 +1,8 @@
-# Prueba técnica: Desafío Bsale Producto
+<!-- # Prueba técnica: Desafío Bsale Producto -->
+# Tienda Online Backend
 
-La prueba consiste en realizar una tienda online que despliegue los productos agrupados por categorías que pertenecen.
+<!-- La prueba consiste en realizar una tienda online que despliegue los productos agrupados por categorías que pertenecen. -->
+El proyecto consiste en realizar una tienda online que despliegue los productos agrupados por categorías que pertenecen.
 
 Este repositorio corresponde a la parte backend del proyecto, específicamente a la API REST que consume el frontend.
 
@@ -8,11 +10,11 @@ La API REST tiene dos endpoint principales
 
 * Ruta para consultar las categorías: `GET /api/v1/category`
 
-    Deploy https://api-tiendabsale.herokuapp.com/api/v1/category 
+    Deploy https://api-tienda-online-danilo.herokuapp.com/api/v1/category 
 
 * Ruta para consultar los productos: `GET /api/v1/product`
 
-    Deploy https://api-tiendabsale.herokuapp.com/api/v1/product
+    Deploy https://api-tienda-online-danilo.herokuapp.com/api/v1/product
 ## Categoría
 
 En este endpoint es posible listar todas las categorías que tienen los productos. Solo se puede consumir.
